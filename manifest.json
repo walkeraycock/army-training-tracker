@@ -1,0 +1,8 @@
+{
+  "name": "Army Training Tracker",
+  "short_name": "ArmyTracker",
+  "display": "standalone",
+  "start_url": ".",
+  "theme_color": "#000000",
+  "background_color": "#000000"
+}
