@@ -1,119 +1,62 @@
-/* ==========================================
-WALKER AYCOCK TRAINING TRACKER
-APP.JS PART 1
-========================================== */
-
 const STORAGE_KEY = "walker_training_v2";
-
-let appData = loadData();
-
-const trainingPlan = {
-1: {
-intervals: "6×400m",
-tempo: "2 mi steady",
-longRun: "3 mi easy"
-},
-2: {
-intervals: "8×400m",
-tempo: "2.5 mi tempo",
-longRun: "3.5 mi easy"
-},
-3: {
-intervals: "5×800m",
-tempo: "3 mi tempo",
-longRun: "4 mi easy"
-},
-4: {
-intervals: "6×800m",
-tempo: "3 mi tempo",
-longRun: "5 mi easy"
-},
-5: {
-intervals: "4×1200m",
-tempo: "4 mi tempo",
-longRun: "5–6 mi easy"
-},
-6: {
-intervals: "6×400m",
-tempo: "2 mi easy",
-longRun: "2 mi time trial"
-}
-};
 
 let currentWeek = 1;
 
-/* ==========================================
-INITIALIZATION
-========================================== */
+const trainingPlan = {
+1:{intervals:"6×400m",tempo:"2 mi steady",longRun:"3 mi easy"},
+2:{intervals:"8×400m",tempo:"2.5 mi tempo",longRun:"3.5 mi easy"},
+3:{intervals:"5×800m",tempo:"3 mi tempo",longRun:"4 mi easy"},
+4:{intervals:"6×800m",tempo:"3 mi tempo",longRun:"5 mi easy"},
+5:{intervals:"4×1200m",tempo:"4 mi tempo",longRun:"5-6 mi easy"},
+6:{intervals:"6×400m",tempo:"2 mi easy",longRun:"2 mi time trial"}
+};
 
-document.addEventListener("DOMContentLoaded", () => {
+function loadData(){
+try{
+return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+}catch{
+return {};
+}
+}
 
-initializeNavigation();
-initializeWeekTabs();
+function saveData(data){
+localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+}
 
-renderTrainingWeek(1);
+let dataStore = loadData();
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+setupNavigation();
+setupWeekTabs();
+renderWeek(1);
+updateDashboard();
 
 });
 
-/* ==========================================
-STORAGE
-========================================== */
+function setupNavigation(){
 
-function loadData() {
+const buttons=document.querySelectorAll(".bottom-nav button");
 
-const saved = localStorage.getItem(STORAGE_KEY);
-
-if(saved){
-return JSON.parse(saved);
-}
-
-return {
-workouts: [],
-settings: {}
-};
-}
-
-function saveData(){
-localStorage.setItem(
-STORAGE_KEY,
-JSON.stringify(appData)
-);
-}
-
-/* ==========================================
-NAVIGATION
-========================================== */
-
-function initializeNavigation(){
-
-const buttons =
-document.querySelectorAll(
-".bottom-nav button"
-);
-
-buttons.forEach(btn => {
+buttons.forEach(button=>{
 
 ```
-btn.addEventListener("click", () => {
+button.addEventListener("click",()=>{
 
-  buttons.forEach(b =>
-    b.classList.remove("active")
-  );
-
-  btn.classList.add("active");
-
-  const screen =
-    btn.dataset.screen;
+  buttons.forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
 
   document
     .querySelectorAll(".screen")
-    .forEach(s =>
-      s.classList.remove("active")
-    );
+    .forEach(screen=>screen.classList.remove("active"));
 
-  document
-    .getElementById(screen)
-    .classList.add("active");
+  const target=document.getElementById(
+    button.dataset.screen
+  );
+
+  if(target){
+    target.classList.add("active");
+  }
 
 });
 ```
@@ -122,386 +65,229 @@ btn.addEventListener("click", () => {
 
 }
 
-/* ==========================================
-WEEK TABS
-========================================== */
+function setupWeekTabs(){
 
-function initializeWeekTabs(){
-
-const buttons =
-document.querySelectorAll(
-".week-btn"
-);
-
-buttons.forEach(btn => {
+document
+.querySelectorAll(".week-btn")
+.forEach(btn=>{
 
 ```
-btn.addEventListener("click", () => {
+  btn.addEventListener("click",()=>{
 
-  buttons.forEach(b =>
-    b.classList.remove("active")
-  );
+    document
+      .querySelectorAll(".week-btn")
+      .forEach(b=>b.classList.remove("active"));
 
-  btn.classList.add("active");
+    btn.classList.add("active");
 
-  currentWeek =
-    Number(btn.dataset.week);
+    currentWeek=Number(btn.dataset.week);
 
-  renderTrainingWeek(
-    currentWeek
-  );
+    renderWeek(currentWeek);
+
+  });
 
 });
 ```
-
-});
 
 }
 
-/* ==========================================
-TRAINING PAGE
-========================================== */
-
-function renderTrainingWeek(week){
+function renderWeek(week){
 
 const container =
-document.getElementById(
-"trainingContent"
-);
+document.getElementById("trainingContent");
 
-const plan =
-trainingPlan[week];
+const plan=trainingPlan[week];
 
-container.innerHTML = `
-
-${createLowerBodyCard(week)}
-
-${createRunCard(
-week,
-"Tuesday Intervals",
-plan.intervals,
-"intervals"
-)}
-
-${createUpperBodyCard(week)}
-
-${createRunCard(
-week,
-"Thursday Tempo",
-plan.tempo,
-"tempo"
-)}
-
-${createWorkCapacityCard(week)}
-
-${createRunCard(
-week,
-"Saturday Long Run",
-plan.longRun,
-"longrun"
-)}
-
-${createSwimCard(week)}
-
-`;
-
-initializeInputs();
-
-}
-
-/* ==========================================
-INPUT AUTOSAVE
-========================================== */
-
-function initializeInputs(){
-
-const inputs =
-document.querySelectorAll(
-"[data-save]"
-);
-
-inputs.forEach(input => {
+container.innerHTML=`
 
 ```
-input.addEventListener(
-  "change",
-  saveField
-);
+<div class="card">
 
-input.addEventListener(
-  "input",
-  saveField
-);
-```
+  <h2>Monday - Lower Body</h2>
 
-});
+  ${liftBlock(week,"squat","Back Squat",5)}
 
-}
+  ${liftBlock(week,"rdl","Romanian Deadlift",4)}
 
-function saveField(event){
-
-const key =
-event.target.dataset.save;
-
-const value =
-event.target.value;
-
-let workout =
-appData.workouts.find(
-w => w.key === key
-);
-
-if(!workout){
-
-```
-workout = {
-  key:key,
-  value:value,
-  date:new Date().toISOString()
-};
-
-appData.workouts.push(
-  workout
-);
-```
-
-} else {
-
-```
-workout.value = value;
-```
-
-}
-
-saveData();
-
-}
-
-/* ==========================================
-CARD BUILDERS
-========================================== */
-
-function createRunCard(
-week,
-title,
-prescribed,
-key
-){
-
-return `
+</div>
 
 <div class="card">
 
-<h2>${title}</h2>
+  <h2>Tuesday Intervals</h2>
 
-<p>
-<strong>Prescribed:</strong>
-${prescribed}
-</p>
+  <p><strong>${plan.intervals}</strong></p>
 
-<label>
-Distance (miles)
-</label>
+  <input
+    placeholder="Distance (mi)"
+    data-save="w${week}_interval_distance">
 
-<input
-type="number"
-step="0.01"
-data-save="w${week}_${key}_distance"
-
->
-
-<label>
-Time (minutes)
-</label>
-
-<input
-type="number"
-step="0.01"
-data-save="w${week}_${key}_time"
-
->
-
-<label>
-Notes
-</label>
-
-<textarea
-data-save="w${week}_${key}_notes">
-</textarea>
+  <input
+    placeholder="Time (min)"
+    data-save="w${week}_interval_time">
 
 </div>
-`;
-
-}
-
-function createLowerBodyCard(week){
-
-return `
 
 <div class="card">
 
-<h2>
-Monday – Lower Body
-</h2>
+  <h2>Wednesday Upper Body</h2>
 
-${buildLift(
-week,
-"squat",
-"Back Squat",
-5
-)}
+  ${liftBlock(week,"bench","Bench Press",4)}
 
-${buildLift(
-week,
-"rdl",
-"Romanian Deadlift",
-4
-)}
+  ${liftBlock(week,"ohp","Overhead Press",4)}
 
 </div>
-`;
-
-}
-
-function createUpperBodyCard(week){
-
-return `
 
 <div class="card">
 
-<h2>
-Wednesday – Upper Body
-</h2>
+  <h2>Thursday Tempo</h2>
 
-${buildLift(
-week,
-"bench",
-"Bench Press",
-4
-)}
+  <p><strong>${plan.tempo}</strong></p>
 
-${buildLift(
-week,
-"ohp",
-"Overhead Press",
-4
-)}
+  <input
+    placeholder="Distance (mi)"
+    data-save="w${week}_tempo_distance">
 
-${buildLift(
-week,
-"rows",
-"DB Rows",
-4
-)}
+  <input
+    placeholder="Time (min)"
+    data-save="w${week}_tempo_time">
 
 </div>
-`;
-
-}
-
-function createWorkCapacityCard(week){
-
-return `
 
 <div class="card">
 
-<h2>
-Friday – Work Capacity
-</h2>
+  <h2>Friday Work Capacity</h2>
 
-${buildLift(
-week,
-"deadlift",
-"Deadlift",
-5
-)}
+  ${liftBlock(week,"deadlift","Deadlift",5)}
 
 </div>
-`;
-
-}
-
-function createSwimCard(week){
-
-return `
 
 <div class="card">
 
-<h2>
-Swim Work
-</h2>
+  <h2>Saturday Long Run</h2>
 
-<label>
-Distance
-</label>
+  <p><strong>${plan.longRun}</strong></p>
 
-<input
-data-save="w${week}_swim_distance"
+  <input
+    placeholder="Distance (mi)"
+    data-save="w${week}_long_distance">
 
->
-
-<label>
-Time
-</label>
-
-<input
-data-save="w${week}_swim_time"
-
->
-
-<label>
-Notes
-</label>
-
-<textarea
-data-save="w${week}_swim_notes">
-</textarea>
+  <input
+    placeholder="Time (min)"
+    data-save="w${week}_long_time">
 
 </div>
+
+<div class="card">
+
+  <h2>Sunday Swim</h2>
+
+  <input
+    placeholder="Distance"
+    data-save="w${week}_swim_distance">
+
+  <input
+    placeholder="Time"
+    data-save="w${week}_swim_time">
+
+</div>
+```
+
 `;
+
+loadSavedValues();
+attachAutosave();
 
 }
 
-/* ==========================================
-LIFT TEMPLATE
-========================================== */
+function liftBlock(week,key,title,sets){
 
-function buildLift(
-week,
-key,
-title,
-sets
-){
-
-let html =
-`<h3>${title}</h3>`;
+let html=`<h3>${title}</h3>`;
 
 for(let i=1;i<=sets;i++){
 
-html += `
+```
+html+=`
 
-<div>
+  <input
+    placeholder="Set ${i} Weight"
+    data-save="w${week}_${key}_${i}_weight">
 
-Set ${i}
-
-<input
-placeholder="Weight"
-data-save="w${week}*${key}*${i}_weight"
-
->
-
-<input
-placeholder="Reps"
-data-save="w${week}*${key}*${i}_reps"
-
->
-
-</div>
+  <input
+    placeholder="Set ${i} Reps"
+    data-save="w${week}_${key}_${i}_reps">
 
 `;
+```
 
 }
 
 return html;
+
+}
+
+function attachAutosave(){
+
+document
+.querySelectorAll("[data-save]")
+.forEach(input=>{
+
+```
+  input.addEventListener("input",()=>{
+
+    dataStore[input.dataset.save]=input.value;
+
+    saveData(dataStore);
+
+    updateDashboard();
+
+  });
+
+});
+```
+
+}
+
+function loadSavedValues(){
+
+document
+.querySelectorAll("[data-save]")
+.forEach(input=>{
+
+```
+  input.value=
+    dataStore[input.dataset.save] || "";
+
+});
+```
+
+}
+
+function updateDashboard(){
+
+let miles=0;
+let workouts=0;
+
+Object.entries(dataStore).forEach(([key,val])=>{
+
+```
+if(
+  key.includes("distance") &&
+  !isNaN(parseFloat(val))
+){
+  miles+=parseFloat(val);
+}
+
+if(val!=="" && val!=null){
+  workouts++;
+}
+```
+
+});
+
+document.getElementById("totalMiles").textContent =
+miles.toFixed(1);
+
+document.getElementById("completedWorkouts").textContent =
+workouts;
 
 }
