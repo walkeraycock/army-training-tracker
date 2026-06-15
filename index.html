@@ -1,210 +1,168 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Army Training Tracker</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-font-family:Arial,sans-serif;
-max-width:900px;
-margin:auto;
-padding:15px;
-background:#f5f5f5;
-}
+<title>Walker Aycock Training Tracker</title>
 
-.card{
-background:white;
-padding:15px;
-margin:15px 0;
-border-radius:10px;
-box-shadow:0 1px 4px rgba(0,0,0,.15);
-}
+<link rel="manifest" href="manifest.json">
 
-input, textarea, select{
-width:100%;
-padding:8px;
-margin-top:5px;
-margin-bottom:10px;
-box-sizing:border-box;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-button{
-padding:10px;
-width:100%;
-background:#4b5320;
-color:white;
-border:none;
-border-radius:5px;
-}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-h1{
-text-align:center;
-}
-</style>
+<link rel="stylesheet" href="styles.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
 <body>
 
-<h1>6-Week Army Training Tracker</h1>
+<div class="app-container">
 
-<label><b>Select Week</b></label> <select id="weekSelect"></select>
+<header class="hero">
 
-<div id="content"></div>
+<h1>Walker Aycock</h1>
 
-<script>
+<p class="subtitle">
+6-Week Endurance & Strength Block
+</p>
 
-const weeks = {
-1:["6x400m","2 mi steady","3 mi easy"],
-2:["8x400m","2.5 mi tempo","3.5 mi easy"],
-3:["5x800m","3 mi tempo","4 mi easy"],
-4:["6x800m","3 mi tempo","5 mi easy"],
-5:["4x1200m","4 mi tempo","5-6 mi easy"],
-6:["6x400m","2 mi easy","2 mi time trial"]
-};
+<p class="tagline">
+Endurance • Strength • Readiness
+</p>
 
-const weekSelect=document.getElementById("weekSelect");
+</header>
 
-for(let i=1;i<=6;i++){
-weekSelect.innerHTML += `<option value="${i}">Week ${i}</option>`;
-}
+<main>
 
-function save(id){
-const data={};
+<section id="dashboard-screen" class="screen active">
 
-document.querySelectorAll(`[data-save="${id}"]`)
-.forEach(el=>{
-data[el.name]=el.value;
-});
+<div class="metrics-grid">
 
-localStorage.setItem(id,JSON.stringify(data));
+<div class="metric-card">
+<h3>Total Miles</h3>
+<span id="totalMiles">0</span>
+</div>
 
-alert("Saved");
-}
+<div class="metric-card">
+<h3>Avg Pace</h3>
+<span id="avgPace">--</span>
+</div>
 
-function render(){
+<div class="metric-card">
+<h3>Longest Run</h3>
+<span id="longestRun">0</span>
+</div>
 
-const week=weekSelect.value || 1;
+<div class="metric-card">
+<h3>Workouts</h3>
+<span id="completedWorkouts">0</span>
+</div>
 
-let html="";
+</div>
 
-const runNames=[
-"Tuesday Intervals",
-"Thursday Tempo",
-"Saturday Long Run"
-];
-
-runNames.forEach((name,index)=>{
-
-const saveKey=`week${week}_run${index}`;
-const saved=JSON.parse(localStorage.getItem(saveKey)||"{}");
-
-html += `
 <div class="card">
-<h2>${name}</h2>
+<h2>Weekly Mileage</h2>
+<canvas id="mileageChart"></canvas>
+</div>
 
-<p><b>Planned:</b> ${weeks[week][index]}</p>
+<div class="card">
+<h2>Average Pace Trend</h2>
+<canvas id="paceChart"></canvas>
+</div>
 
-Distance
-<input
-data-save="${saveKey}"
-name="distance"
-value="${saved.distance||''}"
->
+<div class="card">
+<h2>Recent Activity</h2>
+<div id="recentActivity"></div>
+</div>
 
-Time
-<input
-data-save="${saveKey}"
-name="time"
-value="${saved.time||''}"
->
+</section>
 
-Notes
-<textarea
-data-save="${saveKey}"
-name="notes"
->${saved.notes||''}</textarea>
+<section id="training-screen" class="screen">
 
-<button onclick="save('${saveKey}')">
-Save Run
+<div class="week-tabs">
+
+<button class="week-btn active" data-week="1">W1</button> <button class="week-btn" data-week="2">W2</button> <button class="week-btn" data-week="3">W3</button> <button class="week-btn" data-week="4">W4</button> <button class="week-btn" data-week="5">W5</button> <button class="week-btn" data-week="6">W6</button>
+
+</div>
+
+<div id="trainingContent"></div>
+
+</section>
+
+<section id="progress-screen" class="screen">
+
+<div class="card">
+<h2>Squat Progression</h2>
+<canvas id="squatChart"></canvas>
+</div>
+
+<div class="card">
+<h2>Bench Progression</h2>
+<canvas id="benchChart"></canvas>
+</div>
+
+<div class="card">
+<h2>Deadlift Progression</h2>
+<canvas id="deadliftChart"></canvas>
+</div>
+
+</section>
+
+<section id="settings-screen" class="screen">
+
+<div class="card">
+
+<h2>Data Management</h2>
+
+<button id="exportBtn">
+Export Backup
 </button>
 
-</div>
-`;
-});
+<button id="importBtn">
+Import Backup
+</button>
 
-html += `
+<button id="resetBtn" class="danger">
+Reset All Data
+</button>
 
-<div class="card">
-<h2>Monday – Lower Body Strength</h2>
-
-Back Squat 5x5 <input>
-
-Romanian Deadlift 4x8 <input>
-
-Walking Lunges 3x20 <input>
-
-Step-Ups 3x12/leg <input>
-
-Calf Raises 4x20 <input>
+<input type="file" id="importFile" hidden>
 
 </div>
 
-<div class="card">
-<h2>Wednesday – Upper Body Endurance</h2>
+</section>
 
-Bench Press 4x8 <input>
+</main>
 
-Pull-Ups 5 sets <input>
+<nav class="bottom-nav">
 
-Overhead Press 4x10 <input>
+<button data-screen="dashboard-screen">
+🏠 Dashboard
+</button>
 
-DB Rows 4x12 <input>
+<button data-screen="training-screen">
+🏋️ Training
+</button>
 
-Push-Ups 3 max sets <input>
+<button data-screen="progress-screen">
+📈 Progress
+</button>
 
-</div>
+<button data-screen="settings-screen">
+⚙️ Settings
+</button>
 
-<div class="card">
-<h2>Friday – Work Capacity Circuit</h2>
-
-Deadlift <input>
-
-Push-Ups <input>
-
-Goblet Squat <input>
-
-Pull-Ups <input>
-
-Row <input>
-
-Farmer Carry <input>
+</nav>
 
 </div>
 
-<div class="card">
-<h2>Swim / Pool Work</h2>
-
-Monday Recovery Swim <input>
-
-Wednesday Swim Intervals <input>
-
-Sunday Recovery Swim <input>
-
-</div>
-`;
-
-document.getElementById("content").innerHTML=html;
-}
-
-weekSelect.addEventListener("change",render);
-
-render();
-
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
