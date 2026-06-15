@@ -1,4 +1,4 @@
-:::writing{variant="document" id="57483"}
+
 const STORAGE_KEY = "walker_training_v2";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -73,4 +73,4 @@ function setupWeekTabs() {
     });
 
 }
-:::
+
