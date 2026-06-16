@@ -42,69 +42,8 @@ function setupNavigation() {
     button.dataset.screen ===
     "progress-screen"
 ) {
-            
-function getLiftProgressData() {
-
-    const savedData =
-        JSON.parse(
-            localStorage.getItem(STORAGE_KEY)
-        ) || {};
-
-    const squatData = [];
-    const benchData = [];
-    const deadliftData = [];
-
-    for (let week = 1; week <= 6; week++) {
-
-        const weekData =
-            savedData["week" + week] || {};
-
-        let bestWeight = 0;
-
-        Object.values(weekData).forEach(function(value) {
-
-            if (
-                typeof value !== "string" ||
-                !value.includes("@")
-            ) {
-                return;
-            }
-
-            const parts =
-                value.split("@");
-
-            if (parts.length !== 2) {
-                return;
-            }
-
-            const weight =
-                parseFloat(parts[1]);
-
-            if (
-                !isNaN(weight) &&
-                weight > bestWeight
-            ) {
-                bestWeight = weight;
-            }
-
-        });
-
-        squatData.push(bestWeight);
-        benchData.push(bestWeight);
-        deadliftData.push(bestWeight);
-
-    }
-
-    return {
-        squatData: squatData,
-        benchData: benchData,
-        deadliftData: deadliftData
-    };
-
-}            
     buildProgressCharts();
 }
-
         });
 
     });
@@ -524,7 +463,60 @@ if (workoutsCard) {
 }
 
 }
+function getLiftProgressData() {
 
+    const savedData =
+        JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || {};
+
+    const squatData = [];
+    const benchData = [];
+    const deadliftData = [];
+
+    for (let week = 1; week <= 6; week++) {
+
+        const weekData =
+            savedData["week" + week] || {};
+
+        let bestWeight = 0;
+
+        Object.values(weekData).forEach(function(value) {
+
+            if (
+                typeof value !== "string" ||
+                !value.includes("@")
+            ) {
+                return;
+            }
+
+            const weight =
+                parseFloat(
+                    value.split("@")[1]
+                );
+
+            if (
+                !isNaN(weight) &&
+                weight > bestWeight
+            ) {
+                bestWeight = weight;
+            }
+
+        });
+
+        squatData.push(bestWeight);
+        benchData.push(bestWeight);
+        deadliftData.push(bestWeight);
+
+    }
+
+    return {
+        squatData: squatData,
+        benchData: benchData,
+        deadliftData: deadliftData
+    };
+
+}
 function buildProgressCharts() {
 
     const labels = [
@@ -536,9 +528,17 @@ function buildProgressCharts() {
         "Week 6"
     ];
 
-    const squatData = [0,0,0,0,0,0];
-    const benchData = [0,0,0,0,0,0];
-    const deadliftData = [0,0,0,0,0,0];
+    const progress =
+    getLiftProgressData();
+
+const squatData =
+    progress.squatData;
+
+const benchData =
+    progress.benchData;
+
+const deadliftData =
+    progress.deadliftData;
 
     if (squatChart) squatChart.destroy();
     if (benchChart) benchChart.destroy();
