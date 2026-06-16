@@ -44,6 +44,84 @@ function setupNavigation() {
 ) 
             
             {
+    function getLiftProgressData() {
+
+    const savedData =
+        JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || {};
+
+    const progress =
+    getLiftProgressData();
+
+const squatData =
+    progress.squatData;
+
+const benchData =
+    progress.benchData;
+
+const deadliftData =
+    progress.deadliftData;
+
+    for (let week = 1; week <= 6; week++) {
+
+        const weekData =
+            savedData["week" + week] || {};
+
+        let bestSquat = 0;
+        let bestBench = 0;
+        let bestDeadlift = 0;
+
+        Object.values(weekData).forEach(function(value) {
+
+            if (
+                typeof value !== "string" ||
+                !value.includes("@")
+            ) {
+                return;
+            }
+
+            const parts =
+                value.split("@");
+
+            if (parts.length !== 2) {
+                return;
+            }
+
+            const weight =
+                parseFloat(parts[1]);
+
+            if (isNaN(weight)) {
+                return;
+            }
+
+            if (weight > bestSquat) {
+                bestSquat = weight;
+            }
+
+            if (weight > bestBench) {
+                bestBench = weight;
+            }
+
+            if (weight > bestDeadlift) {
+                bestDeadlift = weight;
+            }
+
+        });
+
+        squatData.push(bestSquat);
+        benchData.push(bestBench);
+        deadliftData.push(bestDeadlift);
+
+    }
+
+    return {
+        squatData: squatData,
+        benchData: benchData,
+        deadliftData: deadliftData
+    };
+
+}
     buildProgressCharts();
 }
 
