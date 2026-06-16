@@ -479,9 +479,17 @@ function getLiftProgressData() {
         const weekData =
             savedData["week" + week] || {};
 
-        let bestWeight = 0;
+        let bestSquat = 0;
+        let bestBench = 0;
+        let bestDeadlift = 0;
 
-        Object.values(weekData).forEach(function(value) {
+        Object.entries(weekData).forEach(function(entry) {
+
+            const index =
+                parseInt(entry[0]);
+
+            const value =
+                entry[1];
 
             if (
                 typeof value !== "string" ||
@@ -495,18 +503,48 @@ function getLiftProgressData() {
                     value.split("@")[1]
                 );
 
+            if (isNaN(weight)) {
+                return;
+            }
+
             if (
-                !isNaN(weight) &&
-                weight > bestWeight
+                index >= 0 &&
+                index <= 4
             ) {
-                bestWeight = weight;
+                bestSquat =
+                    Math.max(
+                        bestSquat,
+                        weight
+                    );
+            }
+
+            if (
+                index >= 11 &&
+                index <= 14
+            ) {
+                bestBench =
+                    Math.max(
+                        bestBench,
+                        weight
+                    );
+            }
+
+            if (
+                index >= 21 &&
+                index <= 25
+            ) {
+                bestDeadlift =
+                    Math.max(
+                        bestDeadlift,
+                        weight
+                    );
             }
 
         });
 
-        squatData.push(bestWeight);
-        benchData.push(bestWeight);
-        deadliftData.push(bestWeight);
+        squatData.push(bestSquat);
+        benchData.push(bestBench);
+        deadliftData.push(bestDeadlift);
 
     }
 
