@@ -1,3 +1,4 @@
+const STORAGE_KEY = "army_training_tracker_v3";
 const STORAGE_KEY = "walker_training_v2";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -115,6 +116,17 @@ function renderWeek(week){
         );
 
     container.innerHTML =
+
+        loadInputs();
+
+document.querySelectorAll("input").forEach(input => {
+
+    input.addEventListener(
+        "input",
+        saveInputs
+    );
+
+});
 
         "<div class='card'>" +
 
@@ -253,5 +265,67 @@ function createLift(name, sets, targetReps) {
     }
 
     return html;
+
+}
+
+function saveInputs() {
+
+    const values = {};
+
+    document.querySelectorAll("input").forEach((input, index) => {
+        values[index] = input.value;
+    });
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(values)
+    );
+
+    updateDashboard();
+
+}
+
+function loadInputs() {
+
+    const saved =
+        JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        );
+
+    if (!saved) return;
+
+    document.querySelectorAll("input").forEach((input, index) => {
+
+        if (saved[index]) {
+            input.value = saved[index];
+        }
+
+    });
+
+}
+
+function updateDashboard() {
+
+    let completed = 0;
+
+    document.querySelectorAll("input").forEach(input => {
+
+        if (input.value.trim() !== "") {
+            completed++;
+        }
+
+    });
+
+    const completedCard =
+        document.getElementById(
+            "completedWorkouts"
+        );
+
+    if (completedCard) {
+
+        completedCard.textContent =
+            completed;
+
+    }
 
 }
