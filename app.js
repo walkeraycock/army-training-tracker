@@ -234,6 +234,8 @@ document.querySelectorAll("input").forEach(input => {
 
 });
 
+updateDashboard();
+
 }
 
 function createLift(name, sets, targetReps) {
@@ -307,24 +309,102 @@ function loadInputs() {
 function updateDashboard() {
 
     let completed = 0;
+    let totalVolume = 0;
+    let totalMiles = 0;
 
     document.querySelectorAll("input").forEach(input => {
 
-        if (input.value.trim() !== "") {
+        const value = input.value.trim();
+
+        if (value !== "") {
             completed++;
+        }
+
+        if (value.includes("@")) {
+
+            const parts =
+                value.split("@");
+
+            if (parts.length === 2) {
+
+                const reps =
+                    parseFloat(parts[0].trim());
+
+                const weight =
+                    parseFloat(parts[1].trim());
+
+                if (
+                    !isNaN(reps) &&
+                    !isNaN(weight)
+                ) {
+                    totalVolume +=
+                        reps * weight;
+                }
+
+            }
+
+        }
+
+        if (
+            input.placeholder === "Distance"
+        ) {
+
+            const distance =
+                parseFloat(value);
+
+            if (!isNaN(distance)) {
+                totalMiles += distance;
+            }
+
         }
 
     });
 
-    const completedCard =
+    const completionCard =
         document.getElementById(
-            "completedWorkouts"
+            "completionPercent"
         );
 
-    if (completedCard) {
+    const volumeCard =
+        document.getElementById(
+            "totalVolume"
+        );
 
-        completedCard.textContent =
-            completed;
+    const milesCard =
+        document.getElementById(
+            "totalMiles"
+        );
+
+    if (completionCard) {
+
+        const totalInputs =
+            document.querySelectorAll("input")
+                .length;
+
+        const percent =
+            totalInputs === 0
+            ? 0
+            : Math.round(
+                (completed / totalInputs) * 100
+              );
+
+        completionCard.textContent =
+            percent + "%";
+
+    }
+
+    if (volumeCard) {
+
+        volumeCard.textContent =
+            totalVolume.toLocaleString() +
+            " lbs";
+
+    }
+
+    if (milesCard) {
+
+        milesCard.textContent =
+            totalMiles.toFixed(1);
 
     }
 
