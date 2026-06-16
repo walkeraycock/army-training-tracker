@@ -236,3 +236,18 @@ grid-template-columns:repeat(4,1fr);
 }
 
 }
+.set-group{
+    margin-bottom:14px;
+}
+
+.set-label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:600;
+    color:#d4af37;
+    letter-spacing:0.5px;
+}
+
+.set-input{
+    width:100%;
+}
