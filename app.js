@@ -123,8 +123,9 @@ function renderWeek(week){
 
         "</div>" +
 
+"<div class='card'>" +
 
-            "<h2>Monday - Lower Body</h2>" +
+    "<h2>Monday - Lower Body</h2>" +
 
             createLift(
                 'Back Squat',
