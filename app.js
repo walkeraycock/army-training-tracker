@@ -124,23 +124,6 @@ function renderWeek(week){
         "</div>" +
 
 
-document.querySelectorAll("input").forEach(input => {
-
-    input.addEventListener(
-        "input",
-        saveInputs
-    );
-
-});
-
-        "<div class='card'>" +
-
-            "<h2>Week " + week + "</h2>" +
-
-        "</div>" +
-
-        "<div class='card'>" +
-
             "<h2>Monday - Lower Body</h2>" +
 
             createLift(
