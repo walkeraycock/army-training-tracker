@@ -408,4 +408,16 @@ function updateDashboard() {
 
     }
 
+    const workoutsCard =
+    document.getElementById(
+        "completedWorkouts"
+    );
+
+if (workoutsCard) {
+
+    workoutsCard.textContent =
+        completed;
+
+}
+
 }
