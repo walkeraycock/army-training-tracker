@@ -41,36 +41,25 @@ function setupNavigation() {
             if (
     button.dataset.screen ===
     "progress-screen"
-) 
+) {
             
-            {
-    function getLiftProgressData() {
+function getLiftProgressData() {
 
     const savedData =
         JSON.parse(
             localStorage.getItem(STORAGE_KEY)
         ) || {};
 
-    const progress =
-    getLiftProgressData();
-
-const squatData =
-    progress.squatData;
-
-const benchData =
-    progress.benchData;
-
-const deadliftData =
-    progress.deadliftData;
+    const squatData = [];
+    const benchData = [];
+    const deadliftData = [];
 
     for (let week = 1; week <= 6; week++) {
 
         const weekData =
             savedData["week" + week] || {};
 
-        let bestSquat = 0;
-        let bestBench = 0;
-        let bestDeadlift = 0;
+        let bestWeight = 0;
 
         Object.values(weekData).forEach(function(value) {
 
@@ -91,27 +80,18 @@ const deadliftData =
             const weight =
                 parseFloat(parts[1]);
 
-            if (isNaN(weight)) {
-                return;
-            }
-
-            if (weight > bestSquat) {
-                bestSquat = weight;
-            }
-
-            if (weight > bestBench) {
-                bestBench = weight;
-            }
-
-            if (weight > bestDeadlift) {
-                bestDeadlift = weight;
+            if (
+                !isNaN(weight) &&
+                weight > bestWeight
+            ) {
+                bestWeight = weight;
             }
 
         });
 
-        squatData.push(bestSquat);
-        benchData.push(bestBench);
-        deadliftData.push(bestDeadlift);
+        squatData.push(bestWeight);
+        benchData.push(bestWeight);
+        deadliftData.push(bestWeight);
 
     }
 
@@ -121,7 +101,7 @@ const deadliftData =
         deadliftData: deadliftData
     };
 
-}
+}            
     buildProgressCharts();
 }
 
