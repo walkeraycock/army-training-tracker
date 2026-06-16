@@ -117,7 +117,12 @@ function renderWeek(week){
 
     container.innerHTML =
 
-        loadInputs();
+        "<div class='card'>" +
+
+            "<h2>Week " + week + "</h2>" +
+
+        "</div>" +
+
 
 document.querySelectorAll("input").forEach(input => {
 
