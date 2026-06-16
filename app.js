@@ -234,6 +234,17 @@ document.querySelectorAll("input").forEach(input => {
 
         "</div>";
 
+    loadInputs();
+
+document.querySelectorAll("input").forEach(input => {
+
+    input.addEventListener(
+        "input",
+        saveInputs
+    );
+
+});
+
 }
 
 function createLift(name, sets, targetReps) {
