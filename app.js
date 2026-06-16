@@ -1,5 +1,6 @@
 const STORAGE_KEY = "army_training_tracker_v3";
 
+let currentWeek = 1;
 
 document.addEventListener("DOMContentLoaded", function () {
     setupNavigation();
@@ -118,6 +119,8 @@ const trainingPlan = {
 
 function renderWeek(week){
 
+    currentWeek = week;
+    
     const plan =
         trainingPlan[week];
 
@@ -283,15 +286,30 @@ function createLift(name, sets, targetReps) {
 
 function saveInputs() {
 
-    const values = {};
+    let savedData =
+        JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || {};
 
-    document.querySelectorAll("input").forEach((input, index) => {
-        values[index] = input.value;
-    });
+    if (!savedData["week" + currentWeek]) {
+
+        savedData["week" + currentWeek] = {};
+
+    }
+
+    document
+        .querySelectorAll("input")
+        .forEach(function(input, index) {
+
+            savedData[
+                "week" + currentWeek
+            ][index] = input.value;
+
+        });
 
     localStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify(values)
+        JSON.stringify(savedData)
     );
 
     updateDashboard();
@@ -300,20 +318,34 @@ function saveInputs() {
 
 function loadInputs() {
 
-    const saved =
+    const savedData =
         JSON.parse(
             localStorage.getItem(STORAGE_KEY)
         );
 
-    if (!saved) return;
+    if (!savedData) return;
 
-    document.querySelectorAll("input").forEach((input, index) => {
+    const weekData =
+        savedData[
+            "week" + currentWeek
+        ];
 
-        if (saved[index]) {
-            input.value = saved[index];
-        }
+    if (!weekData) return;
 
-    });
+    document
+        .querySelectorAll("input")
+        .forEach(function(input, index) {
+
+            if (
+                weekData[index] !== undefined
+            ) {
+
+                input.value =
+                    weekData[index];
+
+            }
+
+        });
 
 }
 
