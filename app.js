@@ -626,3 +626,37 @@ const deadliftData =
 
 }
 
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const resetButton =
+            document.getElementById(
+                "resetDataBtn"
+            );
+
+        if (resetButton) {
+
+            resetButton.addEventListener(
+                "click",
+                function() {
+
+                    if (
+                        confirm(
+                            "Delete all saved training data?"
+                        )
+                    ) {
+
+                        localStorage.clear();
+
+                        location.reload();
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+);
