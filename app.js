@@ -219,7 +219,7 @@ function renderWeek(week){
 
 }
 
-function createLift(name, sets) {
+function createLift(name, sets, targetReps) {
 
     let html =
         "<h3>" + name + "</h3>";
@@ -233,12 +233,15 @@ function createLift(name, sets) {
                 "<label class='set-label'>" +
 
                     "Set " + i +
+                    " (" + targetReps + " reps)" +
 
                 "</label>" +
 
                 "<input " +
                     "class='set-input' " +
-                    "placeholder='5 @ 225'>" +
+                    "placeholder='" +
+                    targetReps +
+                    " @ Weight'>" +
 
             "</div>";
 
