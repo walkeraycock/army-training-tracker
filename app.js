@@ -219,22 +219,28 @@ function renderWeek(week){
 
 }
 
-function createLift(name,sets){
+function createLift(name, sets) {
 
     let html =
         "<h3>" + name + "</h3>";
 
-    for(let i=1;i<=sets;i++){
+    for (let i = 1; i <= sets; i++) {
 
         html +=
 
-            "<input placeholder='Set " +
-            i +
-            " Weight'>" +
+            "<div class='set-group'>" +
 
-            "<input placeholder='Set " +
-            i +
-            " Reps'>";
+                "<label class='set-label'>" +
+
+                    "Set " + i +
+
+                "</label>" +
+
+                "<input " +
+                    "class='set-input' " +
+                    "placeholder='5 @ 225'>" +
+
+            "</div>";
 
     }
 
