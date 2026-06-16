@@ -128,12 +128,14 @@ function renderWeek(week){
 
             createLift(
                 'Back Squat',
+                5,
                 5
             ) +
 
             createLift(
                 'Romanian Deadlift',
-                4
+                4,
+                8
             ) +
 
         "</div>" +
@@ -158,12 +160,14 @@ function renderWeek(week){
 
             createLift(
                 'Bench Press',
-                4
+                4,
+                8
             ) +
 
             createLift(
                 'Overhead Press',
-                4
+                4,
+                10
             ) +
 
         "</div>" +
@@ -188,6 +192,7 @@ function renderWeek(week){
 
             createLift(
                 'Deadlift',
+                5,
                 5
             ) +
 
