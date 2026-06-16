@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
     setupWeekTabs();
 });
 
+let squatChart;
+let benchChart;
+let deadliftChart;
+
 function setupNavigation() {
 
     const buttons = document.querySelectorAll(".bottom-nav button");
@@ -417,6 +421,69 @@ if (workoutsCard) {
 
     workoutsCard.textContent =
         completed;
+
+}
+
+function buildProgressCharts() {
+
+    const labels = [
+        "Week 1",
+        "Week 2",
+        "Week 3",
+        "Week 4",
+        "Week 5",
+        "Week 6"
+    ];
+
+    const squatData = [0,0,0,0,0,0];
+    const benchData = [0,0,0,0,0,0];
+    const deadliftData = [0,0,0,0,0,0];
+
+    if (squatChart) squatChart.destroy();
+    if (benchChart) benchChart.destroy();
+    if (deadliftChart) deadliftChart.destroy();
+
+    squatChart = new Chart(
+        document.getElementById("squatChart"),
+        {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Back Squat",
+                    data: squatData
+                }]
+            }
+        }
+    );
+
+    benchChart = new Chart(
+        document.getElementById("benchChart"),
+        {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Bench Press",
+                    data: benchData
+                }]
+            }
+        }
+    );
+
+    deadliftChart = new Chart(
+        document.getElementById("deadliftChart"),
+        {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Deadlift",
+                    data: deadliftData
+                }]
+            }
+        }
+    );
 
 }
 
