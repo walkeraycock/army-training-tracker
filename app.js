@@ -37,6 +37,13 @@ function setupNavigation() {
                 targetScreen.classList.add("active");
             }
 
+            if (
+    button.dataset.screen ===
+    "progress-screen"
+) {
+    buildProgressCharts();
+}
+
         });
 
     });
@@ -421,6 +428,8 @@ if (workoutsCard) {
 
     workoutsCard.textContent =
         completed;
+
+}
 
 }
 
