@@ -1,5 +1,5 @@
 const STORAGE_KEY = "army_training_tracker_v3";
-const STORAGE_KEY = "walker_training_v2";
+
 
 document.addEventListener("DOMContentLoaded", function () {
     setupNavigation();
