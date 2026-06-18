@@ -251,3 +251,16 @@ grid-template-columns:repeat(4,1fr);
 .set-input{
     width:100%;
 }
+.accessory {
+
+    margin-top: 15px;
+
+}
+
+.accessory h3 {
+
+    margin-bottom: 5px;
+
+    font-size: 1rem;
+
+}
