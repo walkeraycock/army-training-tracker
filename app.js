@@ -579,8 +579,8 @@ function getLiftProgressData() {
             }
 
             if (
-                index >= 11 &&
-                index <= 14
+                index >= 14 &&
+                index <= 17
             ) {
                 bestBench =
                     Math.max(
@@ -590,8 +590,8 @@ function getLiftProgressData() {
             }
 
             if (
-                index >= 21 &&
-                index <= 25
+                index >= 27 &&
+                index <= 31
             ) {
                 bestDeadlift =
                     Math.max(
