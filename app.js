@@ -314,7 +314,7 @@ function createLift(name, sets, targetReps) {
                     "class='set-input' " +
                     "placeholder='" +
                     targetReps +
-                    " @ Weight'>" +
+                    "@Weight'>" +
 
             "</div>";
 
