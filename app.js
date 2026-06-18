@@ -467,12 +467,13 @@ function updateDashboard() {
             if (!isNaN(distance)) {
                 totalMiles += distance;
             }
+            buildMileageChart();
+updateRecentActivity();
 
         }
 
     }
-buildMileageChart();
-updateRecentActivity(); );
+ );
 
     const completionCard =
         document.getElementById(
