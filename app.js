@@ -151,6 +151,17 @@ function renderWeek(week){
                 4,
                 8
             ) +
+        createAccessory(
+        'Walking Lunges'
+    ) +
+
+    createAccessory(
+        'Step-Ups'
+    ) +
+
+    createAccessory(
+        'Calf Raises'
+    ) +
 
         "</div>" +
 
@@ -183,6 +194,17 @@ function renderWeek(week){
                 4,
                 10
             ) +
+        createAccessory(
+        'Pull-Ups'
+    ) +
+
+    createAccessory(
+        'DB Rows'
+    ) +
+
+    createAccessory(
+        'Push-Ups'
+    ) +
 
         "</div>" +
 
@@ -209,6 +231,25 @@ function renderWeek(week){
                 5,
                 5
             ) +
+        createAccessory(
+        'Push-Ups'
+    ) +
+
+    createAccessory(
+        'Goblet Squat'
+    ) +
+
+    createAccessory(
+        'Pull-Ups'
+    ) +
+
+    createAccessory(
+        'Row 250m'
+    ) +
+
+    createAccessory(
+        'Farmer Carry'
+    ) +
 
         "</div>" +
 
@@ -278,6 +319,23 @@ function createLift(name, sets, targetReps) {
             "</div>";
 
     }
+    function createAccessory(name) {
+
+    return (
+
+        "<div class='accessory'>" +
+
+            "<h3>" +
+                name +
+            "</h3>" +
+
+            "<input placeholder='Weight / Notes'>" +
+
+        "</div>"
+
+    );
+
+}
 
     return html;
 
