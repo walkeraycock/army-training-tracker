@@ -407,6 +407,16 @@ function loadInputs() {
         });
 
 }
+function refreshApp() {
+
+    localStorage.setItem(
+        "lastRefresh",
+        Date.now()
+    );
+
+    window.location.reload();
+
+}
 
 function updateDashboard() {
 
