@@ -319,7 +319,13 @@ function createLift(name, sets, targetReps) {
             "</div>";
 
     }
-    function createAccessory(name) {
+    
+
+    return html;
+
+}
+
+function createAccessory(name) {
 
     return (
 
@@ -329,15 +335,11 @@ function createLift(name, sets, targetReps) {
                 name +
             "</h3>" +
 
-            "<input placeholder='Weight / Notes'>" +
+            "<input placeholder='Record Performance'>" +
 
         "</div>"
 
     );
-
-}
-
-    return html;
 
 }
 
