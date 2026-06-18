@@ -6,3 +6,16 @@
   "theme_color": "#000000",
   "background_color": "#000000"
 }
+{
+  "name": "Army Summer Training Program",
+  "short_name": "Army Training",
+  "start_url": ".",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "army-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
