@@ -536,6 +536,129 @@ if (workoutsCard) {
 }
 
 }
+
+let mileageChart;
+
+function buildMileageChart() {
+
+    const canvas =
+        document.getElementById(
+            "mileageChart"
+        );
+
+    if (!canvas) return;
+
+    const labels = [
+        "Week 1",
+        "Week 2",
+        "Week 3",
+        "Week 4",
+        "Week 5",
+        "Week 6"
+    ];
+
+    const mileageData = [];
+
+    const savedData =
+        JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || {};
+
+    for (let week = 1; week <= 6; week++) {
+
+        const weekData =
+            savedData["week" + week] || {};
+
+        let miles = 0;
+
+        [12, 25, 37, 39].forEach(index => {
+
+            const value =
+                parseFloat(
+                    weekData[index]
+                );
+
+            if (!isNaN(value)) {
+                miles += value;
+            }
+
+        });
+
+        mileageData.push(miles);
+
+    }
+
+    if (mileageChart) {
+        mileageChart.destroy();
+    }
+
+    mileageChart = new Chart(
+        canvas,
+        {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Miles",
+                    data: mileageData
+                }]
+            }
+        }
+    );
+
+}
+
+function updateRecentActivity() {
+
+    const container =
+        document.getElementById(
+            "recentActivity"
+        );
+
+    if (!container) return;
+
+    const savedData =
+        JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || {};
+
+    let entries = [];
+
+    Object.entries(savedData).forEach(
+        ([week, weekData]) => {
+
+            Object.values(weekData)
+                .forEach(value => {
+
+                    if (
+                        value &&
+                        value.trim() !== ""
+                    ) {
+
+                        entries.push(
+                            week +
+                            ": " +
+                            value
+                        );
+
+                    }
+
+                });
+
+        });
+
+    container.innerHTML =
+        entries
+            .slice(-5)
+            .reverse()
+            .map(
+                e =>
+                "<p>" + e + "</p>"
+            )
+            .join("");
+
+}
+
 function getLiftProgressData() {
 
     const savedData =
