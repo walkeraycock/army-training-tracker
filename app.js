@@ -470,7 +470,9 @@ function updateDashboard() {
 
         }
 
-    });
+    }
+buildMileageChart();
+updateRecentActivity(); );
 
     const completionCard =
         document.getElementById(
