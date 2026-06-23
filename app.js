@@ -176,9 +176,9 @@ function renderWeek(week){
             plan.intervals +
             "</p>" +
 
-            "<input placeholder='Distance'>" +
+            "<input placeholder='Meters'>" +
 
-            "<input placeholder='Time'>" +
+            "<input placeholder='Average Time'>" +
 
         "</div>" +
 
@@ -222,7 +222,7 @@ createAccessory(
             plan.tempo +
             "</p>" +
 
-            "<input placeholder='Distance'>" +
+            "<input placeholder='Meters'>" +
 
             "<input placeholder='Time'>" +
 
@@ -272,7 +272,7 @@ createAccessory(
             plan.longRun +
             "</p>" +
 
-            "<input placeholder='Distance'>" +
+            "<input placeholder='Meters'>" +
 
             "<input placeholder='Time'>" +
 
@@ -282,7 +282,7 @@ createAccessory(
 
             "<h2>Sunday Recovery Swim</h2>" +
 
-            "<input placeholder='Distance'>" +
+            "<input placeholder='Meters'>" +
 
             "<input placeholder='Time'>" +
 
@@ -471,8 +471,20 @@ function updateDashboard() {
         }
 
         if (
-            input.placeholder === "Distance"
-        ) {
+    input.placeholder === "Meters"
+) {
+
+    const meters =
+        parseFloat(value);
+
+    if (!isNaN(meters)) {
+
+        totalMiles +=
+            meters / 1609.34;
+
+    }
+
+} {
 
             const distance =
                 parseFloat(value);
@@ -556,6 +568,9 @@ let mileageChart;
 
 
 
+function buildMileageChart() 
+let mileageChart;
+
 function buildMileageChart() {
 
     const canvas =
@@ -578,50 +593,91 @@ function buildMileageChart() {
 
     const savedData =
         JSON.parse(
-            localStorage.getItem(STORAGE_KEY)
+            localStorage.getItem(
+                STORAGE_KEY
+            )
         ) || {};
 
-    for (let week = 1; week <= 6; week++) {
+    for (
+        let week = 1;
+        week <= 6;
+        week++
+    ) {
 
         const weekData =
-            savedData["week" + week] || {};
+            savedData[
+                "week" + week
+            ] || {};
 
-        let miles = 0;
+        let weeklyMeters = 0;
 
-        [12, 25, 37, 39].forEach(index => {
+        Object.values(
+            weekData
+        ).forEach(value => {
 
-            const value =
-                parseFloat(
-                    weekData[index]
-                );
+            const number =
+                parseFloat(value);
 
-            if (!isNaN(value)) {
-                miles += value;
+            if (
+                !isNaN(number) &&
+                number > 200
+            ) {
+
+                weeklyMeters +=
+                    number;
+
             }
 
         });
 
-        mileageData.push(miles);
+        mileageData.push(
+
+            (
+                weeklyMeters /
+                1609.34
+            ).toFixed(1)
+
+        );
 
     }
 
     if (mileageChart) {
+
         mileageChart.destroy();
+
     }
 
-    mileageChart = new Chart(
-        canvas,
-        {
-            type: "bar",
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: "Miles",
-                    data: mileageData
-                }]
+    mileageChart =
+        new Chart(
+            canvas,
+            {
+                type: "bar",
+
+                data: {
+
+                    labels:
+
+                        labels,
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Miles",
+
+                            data:
+                                mileageData
+
+                        }
+
+                    ]
+
+                }
+
             }
-        }
-    );
+
+        );
 
 }
 
