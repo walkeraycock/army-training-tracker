@@ -552,6 +552,8 @@ if (workoutsCard) {
 
 let mileageChart;
 
+buildTrainingSummaryTable();
+
 function buildMileageChart() {
 
     const canvas =
@@ -618,6 +620,91 @@ function buildMileageChart() {
             }
         }
     );
+
+}
+
+function buildTrainingSummaryTable() {
+
+    const container =
+        document.getElementById(
+            "trainingSummaryTable"
+        );
+
+    if (!container) return;
+
+    const savedData =
+        JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || {};
+
+    const lifts = [
+        { name: "Back Squat", index: 0 },
+        { name: "Bench Press", index: 14 },
+        { name: "Deadlift", index: 27 },
+        { name: "Pull-Ups", index: 18 },
+        { name: "Goblet Squat", index: 29 }
+    ];
+
+    let html =
+        "<table class='summary-table'>";
+
+    html +=
+        "<tr>" +
+        "<th>Exercise</th>";
+
+    for (let week = 1; week <= 6; week++) {
+
+        html +=
+            "<th>W" +
+            week +
+            "</th>";
+
+    }
+
+    html += "</tr>";
+
+    lifts.forEach(function(lift) {
+
+        html +=
+            "<tr>";
+
+        html +=
+            "<td>" +
+            lift.name +
+            "</td>";
+
+        for (
+            let week = 1;
+            week <= 6;
+            week++
+        ) {
+
+            const weekData =
+                savedData[
+                    "week" + week
+                ] || {};
+
+            html +=
+                "<td>" +
+                (
+                    weekData[
+                        lift.index
+                    ] || "-"
+                ) +
+                "</td>";
+
+        }
+
+        html +=
+            "</tr>";
+
+    });
+
+    html +=
+        "</table>";
+
+    container.innerHTML =
+        html;
 
 }
 
