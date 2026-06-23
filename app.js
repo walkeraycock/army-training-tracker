@@ -152,15 +152,18 @@ function renderWeek(week){
                 8
             ) +
         createAccessory(
-        'Walking Lunges'
+        'Walking Lunges',
+        '3x20'
     ) +
 
     createAccessory(
-        'Step-Ups'
+        'Step-Ups',
+        '3x24'
     ) +
 
     createAccessory(
-        'Calf Raises'
+        'Calf Raises',
+        '3x12'
     ) +
 
         "</div>" +
@@ -195,16 +198,19 @@ function renderWeek(week){
                 10
             ) +
         createAccessory(
-        'Pull-Ups'
-    ) +
+    'Pull-Ups',
+    '3 Sets to Failure'
+) +
 
-    createAccessory(
-        'DB Rows'
-    ) +
+createAccessory(
+    'DB Rows',
+    '4 × 12'
+) +
 
-    createAccessory(
-        'Push-Ups'
-    ) +
+createAccessory(
+    'Push-Ups',
+    '3 Sets to Failure'
+) +
 
         "</div>" +
 
@@ -232,24 +238,29 @@ function renderWeek(week){
                 5
             ) +
         createAccessory(
-        'Push-Ups'
-    ) +
+    'Push-Ups',
+    '3 × Max'
+) +
 
-    createAccessory(
-        'Goblet Squat'
-    ) +
+createAccessory(
+    'Goblet Squat',
+    '3 × 15'
+) +
 
-    createAccessory(
-        'Pull-Ups'
-    ) +
+createAccessory(
+    'Pull-Ups',
+    '3 × Max'
+) +
 
-    createAccessory(
-        'Row 250m'
-    ) +
+createAccessory(
+    'Row 250m',
+    '3 Rounds'
+) +
 
-    createAccessory(
-        'Farmer Carry'
-    ) +
+createAccessory(
+    'Farmer Carry',
+    '3 × 50m'
+) +
 
         "</div>" +
 
@@ -325,15 +336,17 @@ function createLift(name, sets, targetReps) {
 
 }
 
-function createAccessory(name) {
+function createAccessory(name, prescription) {
 
     return (
 
         "<div class='accessory'>" +
 
-            "<h3>" +
-                name +
-            "</h3>" +
+            "<h3>" + name + "</h3>" +
+
+            "<div class='set-label'>" +
+                prescription +
+            "</div>" +
 
             "<input placeholder='Record Performance'>" +
 
