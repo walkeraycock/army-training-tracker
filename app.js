@@ -548,11 +548,13 @@ if (workoutsCard) {
 
 }
 
+buildTrainingSummaryTable();
+
 }
 
 let mileageChart;
 
-buildTrainingSummaryTable();
+
 
 function buildMileageChart() {
 
