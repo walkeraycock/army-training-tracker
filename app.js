@@ -470,7 +470,7 @@ function updateDashboard() {
 
         }
 
-        if (
+     if (
     input.placeholder === "Meters"
 ) {
 
@@ -484,17 +484,7 @@ function updateDashboard() {
 
     }
 
-} {
-
-            const distance =
-                parseFloat(value);
-
-            if (!isNaN(distance)) {
-                totalMiles += distance;
-            }
-            buildMileageChart();
-updateRecentActivity();
-
+}
         }
 
     }
@@ -557,18 +547,23 @@ if (workoutsCard) {
 
     workoutsCard.textContent =
         completed;
+if (workoutsCard) {
 
+    workoutsCard.textContent =
+        completed;
+
+}
+
+buildMileageChart();
+buildTrainingSummaryTable();
+
+}
 }
 
 buildTrainingSummaryTable();
 
 }
 
-let mileageChart;
-
-
-
-function buildMileageChart() 
 let mileageChart;
 
 function buildMileageChart() {
