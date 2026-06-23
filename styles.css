@@ -264,3 +264,40 @@ grid-template-columns:repeat(4,1fr);
     font-size: 1rem;
 
 }
+
+.summary-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 0.9rem;
+
+}
+
+.summary-table th,
+.summary-table td {
+
+    border: 1px solid #444;
+
+    padding: 8px;
+
+    text-align: center;
+
+}
+
+.summary-table th {
+
+    background: #111;
+
+    color: #d4af37;
+
+}
+
+.summary-table td:first-child {
+
+    text-align: left;
+
+    font-weight: 600;
+
+}
