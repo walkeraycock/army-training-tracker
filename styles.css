@@ -308,3 +308,21 @@ grid-template-columns:repeat(4,1fr);
     height: 450px !important;
 
 }
+
+.dashboard-charts {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+
+    margin-top: 15px;
+
+}
+
+.dashboard-charts .card {
+
+    margin-bottom: 0;
+
+}
