@@ -535,15 +535,11 @@ function updateDashboard() {
 
     }
 
-    const workoutsCard =
+ const workoutsCard =
     document.getElementById(
         "completedWorkouts"
     );
 
-if (workoutsCard) {
-
-    workoutsCard.textContent =
-        completed;
 if (workoutsCard) {
 
     workoutsCard.textContent =
@@ -553,13 +549,9 @@ if (workoutsCard) {
 
 buildMileageChart();
 buildTrainingSummaryTable();
+updateRecentActivity();
 
-}
-}
-
-buildTrainingSummaryTable();
-
-}
+}   
 
 let mileageChart;
 
