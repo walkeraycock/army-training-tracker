@@ -631,38 +631,61 @@ function buildMileageChart() {
 
     }
 
-    mileageChart =
-        new Chart(
-            canvas,
-            {
-                type: "bar",
+mileageChart =
+    new Chart(
+        canvas,
+        {
+            type: "bar",
 
-                data: {
+            data: {
 
-                    labels:
+                labels: labels,
 
-                        labels,
+                datasets: [
 
-                    datasets: [
+                    {
 
-                        {
+                        label: "Miles",
 
-                            label:
-                                "Miles",
+                        data: mileageData
 
-                            data:
-                                mileageData
+                    }
+
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        min: 0,
+
+                        max: 15,
+
+                        ticks: {
+
+                            stepSize: 1
 
                         }
 
-                    ]
+                    }
 
                 }
 
             }
 
-        );
+        }
 
+    );   
 }
 
 function buildTrainingSummaryTable() {
