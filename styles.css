@@ -309,20 +309,22 @@ grid-template-columns:repeat(4,1fr);
 
 }
 
-.dashboard-charts {
+#mileageChart {
 
-    display: grid;
+    width: 100% !important;
 
-    grid-template-columns: 1fr 1fr;
-
-    gap: 15px;
-
-    margin-top: 15px;
+    height: 450px !important;
 
 }
 
-.dashboard-charts .card {
+.card:has(#mileageChart) {
 
-    margin-bottom: 0;
+    width: 100%;
+
+}
+
+.card:has(#trainingSummaryTable) {
+
+    width: 100%;
 
 }
