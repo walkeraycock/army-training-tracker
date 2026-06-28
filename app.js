@@ -485,10 +485,7 @@ function updateDashboard() {
     }
 
 }
-        }
-
-    }
- );
+    });
 
     const completionCard =
         document.getElementById(
