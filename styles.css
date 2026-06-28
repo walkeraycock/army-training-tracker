@@ -301,3 +301,10 @@ grid-template-columns:repeat(4,1fr);
     font-weight: 600;
 
 }
+#mileageChart {
+
+    width: 100% !important;
+
+    height: 450px !important;
+
+}
