@@ -304,27 +304,43 @@ grid-template-columns:repeat(4,1fr);
 #mileageChart {
 
     width: 100% !important;
-
     height: 450px !important;
 
 }
 
-#mileageChart {
+@media (max-width: 768px) {
 
-    width: 100% !important;
+    #mileageChart {
 
-    height: 450px !important;
+        height: 260px !important;
 
-}
-
-.card:has(#mileageChart) {
-
-    width: 100%;
+    }
 
 }
 
-.card:has(#trainingSummaryTable) {
+@media (max-width: 768px) {
 
-    width: 100%;
+    .summary-table {
+
+        font-size: 0.75rem;
+
+    }
+
+    .summary-table th,
+    .summary-table td {
+
+        padding: 5px;
+
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .card {
+
+        padding: 14px;
+
+    }
 
 }
